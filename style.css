@@ -54,8 +54,8 @@ h1 {
   margin-top: 20px;
 }
 
-.pokemon .indo .number {
-  background: rgba(0, 0, 0, 0.1);
+.pokemon .info .number {
+  background-color: rgba(0, 0, 0, 0.1);
   padding: 5px 10px;
   border-radius: 10px;
   font-size: 0.8em;
