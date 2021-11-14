@@ -1,5 +1,5 @@
 const poke_container = document.querySelector('#poke-container')
-const pokemon_count = 897
+const pokemon_count = 9;
 const colors = {
     fire: '#FDDFDF',
     grass: '#DEFDE0',
@@ -18,13 +18,39 @@ const colors = {
 }
 
 
+function showPokemon(list, page) {
+    let start = (page * 12 ) - 12
+    let end = (page * 12)
+    poke_container.innerHTML = '';
+    for (let i = 0; i < end; i++) {
+        if (filteredList.length == 0) {
+            poke_container.innerHTML = `<h2 class="noResult">pokemon was not found</h2>`;
+        } else if (i >= filteredList.length) {
+            break;
+        } else if ( i >= start && i <= end) {
+
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
 const main_types = Object.keys(colors)
 
 const fetchPokemons = async () => {
-    for(let i =1; 1 <= pokemon_count; i++) {
+    
+    for(let i = 1; i <= pokemon_count; i++) {
         await getPokemon(i)
     }
 }
+
+
 
 const getPokemon = async (id) => {
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`
@@ -52,14 +78,13 @@ const createPokemonCard = (pokemon) => {
     const pokemonInnerHTML = `
    
         <div class="img-container">
-        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png"" alt="${name}">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="${name}">
         </div>
         <div class="info">
             <span class="number">#${id}</span>
             <h3 class="name">${name}</h3>
             <small class="type">Type: <span>${type}</span></small>
-        </div>
-`
+        </div>`
 
     pokemonEl.innerHTML = pokemonInnerHTML
 
