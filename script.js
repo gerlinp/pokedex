@@ -1,9 +1,5 @@
 const poke_container = document.querySelector('#poke-container')
-const pokemon_count = 897;
-const pokemonList = []
-
-
-// Pokemon type colors
+const pokemon_count = 151;
 const colors = {
     fire: '#FDDFDF',
     grass: '#DEFDE0',
@@ -21,19 +17,25 @@ const colors = {
 	normal: '#F5F5F5'
 }
 
-// Pagination function that creates and appends elements needed for pagination buttons
 
-function pagination() {
-    let pageButtons = Math.ceil(pokemonList.length / 12);
-    let pages = document.querySelector('.pages')
-    pages.innerHTML = '';
-    for (let i = 1; i <= pageButtons; i++) {
-        pages.innerHTML += `
-        <li>
-           <button id="btn-${i}" type="button">${i}</button>
-        </li>`
-    };
-};
+function showPokemon(list, page) {
+    let start = (page * 12 ) - 12
+    let end = (page * 12)
+    poke_container.innerHTML = '';
+    for (let i = 0; i < end; i++) {
+        if (filteredList.length == 0) {
+            poke_container.innerHTML = `<h2 class="noResult">pokemon was not found</h2>`;
+        } else if (i >= filteredList.length) {
+            break;
+        } else if ( i >= start && i <= end) {
+
+        }
+    }
+}
+
+
+
+
 
 
 
@@ -41,14 +43,11 @@ function pagination() {
 
 const main_types = Object.keys(colors)
 
-const fetchPokemons = async (page) => {
-    let start = (page * 12) - 11
-    let end = (page * 12)
-    poke_container.innerHTML = '';
-    for(let i = start; i <= end; i++) {
+const fetchPokemons = async () => {
+    
+    for(let i = 1; i <= pokemon_count; i++) {
         await getPokemon(i)
     }
-    pagination();
 }
 
 
@@ -57,7 +56,6 @@ const getPokemon = async (id) => {
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`
     const res = await fetch(url)
     const data = await res.json()
-    pokemonList.push(data)
     createPokemonCard(data)
 }
 
@@ -69,10 +67,14 @@ const createPokemonCard = (pokemon) => {
 
     const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1)
     const id = pokemon.id.toString().padStart(3, '0')
+
     const poke_types = pokemon.types.map(type => type.type.name)
     const type = main_types.find(type => poke_types.indexOf(type) > -1)
     const color = colors[type]
     pokemonEl.style.backgroundColor = color
+
+    
+
     const pokemonInnerHTML = `
    
         <div class="img-container">
@@ -89,4 +91,4 @@ const createPokemonCard = (pokemon) => {
     poke_container.appendChild(pokemonEl)
 } 
 
-fetchPokemons(1)
+fetchPokemons()
