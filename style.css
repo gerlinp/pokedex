@@ -17,17 +17,17 @@ body {
 }
 
 
-.pages {
+#pages {
   margin: 30px 0 60px;
   text-align: center;
 }
 
-.pages li {
+#pages li {
   display: inline;
   padding: 0 3px;
 }
 
-.pages li button {
+#pages li button {
   font-size: 1em;
   cursor: pointer;
 	outline: none;
@@ -41,7 +41,7 @@ body {
 	transition: 0.4s;
 }
 
-.pages li button.active, .pagination li button:hover {
+#pages li button.active, .pagination li button:hover {
   background-color: #1e90ff;
   color: #fff;
 }

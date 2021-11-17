@@ -1,6 +1,9 @@
 const poke_container = document.querySelector('#poke-container')
 const pokemon_count = 151;
-const colors = {
+let pokemon_list = []
+
+// pokemon type colors
+const colors = { 
     fire: '#FDDFDF',
     grass: '#DEFDE0',
 	electric: '#FCF7DE',
@@ -18,33 +21,39 @@ const colors = {
 }
 
 
-function showPokemon(list, page) {
+// function that appends pokemon to page based on page and list.
+const showPokemon = async (list, page) => {
     let start = (page * 12 ) - 12
     let end = (page * 12)
     poke_container.innerHTML = '';
     for (let i = 0; i < end; i++) {
-        if (filteredList.length == 0) {
-            poke_container.innerHTML = `<h2 class="noResult">pokemon was not found</h2>`;
-        } else if (i >= filteredList.length) {
+         if (i >= pokemon_list.length) {
             break;
         } else if ( i >= start && i <= end) {
-
+            await getPokemon(i)
+        } else if (pokemon_list.length == 0) {
+            poke_container.innerHTML = `<h2 class="noResult">pokemon was not found</h2>`;
         }
     }
+    pagination();
 }
 
+//pagination
 
-
-
-
-
-
-
+function pagination() {
+    const pages = document.querySelector('#pages')
+    let pageButtons = Math.ceil(pokemon_list.length / 12);
+    pages.innerHTML = '';
+    for (let i = 1; i <= pageButtons; i++) {
+        pages.innerHTML += `
+        <li>
+           <button id="btn-${i}" type="button">${i}</button>
+        </li>`
+    };
+};
 
 const main_types = Object.keys(colors)
-
 const fetchPokemons = async () => {
-    
     for(let i = 1; i <= pokemon_count; i++) {
         await getPokemon(i)
     }
@@ -56,6 +65,7 @@ const getPokemon = async (id) => {
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`
     const res = await fetch(url)
     const data = await res.json()
+    pokemon_list.push(data)
     createPokemonCard(data)
 }
 
@@ -92,3 +102,4 @@ const createPokemonCard = (pokemon) => {
 } 
 
 fetchPokemons()
+showPokemon(pokemon_list,1)
